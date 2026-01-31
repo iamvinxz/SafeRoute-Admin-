@@ -13,6 +13,7 @@ const Home = () => {
     */}
       <div className="flex flex-col gap-15">
         <div>
+          <h1>Welcome to SafeRoute, John Doe!</h1>
           <div>
             <h1 className="text-2xl font-semibold">Dashboard</h1>
             <div className="flex gap-5 my-3 w-full">
