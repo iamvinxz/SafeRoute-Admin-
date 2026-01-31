@@ -19,7 +19,7 @@ const HeaderHome = () => {
         <div>
           <span>SafeRoute</span>
         </div>
-        <div>Hehe</div>
+        <div>Hehwdase</div>
       </div>
     </nav>
   );

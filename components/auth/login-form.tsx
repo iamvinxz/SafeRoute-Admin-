@@ -30,11 +30,7 @@ export const LoginForm = () => {
   };
 
   return (
-    <CardWrapper
-      headerLabel="Login your admin account."
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/auth/register"
-    >
+    <CardWrapper headerTitle="Welcome" headerLabel="Login your admin account.">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
