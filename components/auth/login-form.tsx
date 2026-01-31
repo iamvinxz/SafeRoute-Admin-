@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginSchema } from "@/schemas";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-
+import { FormError } from "@/components/form-error";
 import {
   Form,
   FormControl,
@@ -25,15 +25,19 @@ export const LoginForm = () => {
     },
   });
 
+  const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+    console.log(values);
+  };
+
   return (
     <CardWrapper
-      headerLabel="Login your admin account"
+      headerLabel="Login your admin account."
       backButtonLabel="Don't have an account?"
       backButtonHref="/auth/register"
     >
       <Form {...form}>
         <form
-          onSubmit={form.handleSubmit(() => {})}
+          onSubmit={form.handleSubmit(onSubmit)}
           className="space-y-6"
           noValidate
         >
@@ -45,7 +49,12 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder="Email" type="email" />
+                    <Input
+                      {...field}
+                      placeholder="Email"
+                      type="email"
+                      autoComplete="off"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -66,6 +75,7 @@ export const LoginForm = () => {
               )}
             />
           </div>
+          <FormError />
           <Button type="submit" className="w-full">
             Login
           </Button>

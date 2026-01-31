@@ -134,3 +134,12 @@ body,
     background-image: radial-gradient(ellipse at top, #38bdf8, #1e40af);
   }
 }
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
