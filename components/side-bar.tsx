@@ -15,24 +15,17 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 export default function SideNav() {
   const navItems = NavItems();
 
-  const [isSidebarExpanded, setIsSidebarExpanded] = useState(() => {
-    if (typeof window !== "undefined") {
-      const saved = window.localStorage.getItem("sidebarExpanded");
-      if (saved === null) {
-        return true;
-      }
-      return JSON.parse(saved);
-    }
-    return true; // default state if window is not defined
-  });
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      window.localStorage.setItem(
-        "sidebarExpanded",
-        JSON.stringify(isSidebarExpanded),
-      );
+    const saved = localStorage.getItem("sidebarExpanded");
+    if (saved !== null) {
+      setIsSidebarExpanded(JSON.parse(saved));
     }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("sidebarExpanded", JSON.stringify(isSidebarExpanded));
   }, [isSidebarExpanded]);
 
   const toggleSidebar = () => {

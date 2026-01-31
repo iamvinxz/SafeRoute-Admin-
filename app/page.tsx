@@ -1,4 +1,5 @@
 import Login from "@/components/auth/Login";
+import PostButton from "@/components/post-button";
 
 import Link from "next/link";
 
@@ -26,7 +27,12 @@ const Home = () => {
         </div>
 
         <div>
-          <h1 className="text-2xl font-semibold">Articles and Announcements</h1>
+          <div className="flex justify-between">
+            <h1 className="text-2xl font-semibold">
+              Articles and Announcements
+            </h1>
+            <PostButton />
+          </div>
         </div>
       </div>
     </>
