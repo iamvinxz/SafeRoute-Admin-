@@ -52,6 +52,19 @@ const PostButton = () => {
     }
   };
 
+  const handleRemoveImageButton = () => {
+    if (previewURL) {
+      URL.revokeObjectURL(previewURL);
+      setPreviewURL(null);
+    }
+
+    form.setValue("image", "");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
   const handleCreatePost = () => {
     setCreatePostModal(!createPostModal);
   };
@@ -137,13 +150,20 @@ const PostButton = () => {
                           <p className="text-sm text-gray-500 mb-2">
                             Image preview
                           </p>
-                          <div className="relative w-full rounded-lg border overflow-hidden bg-slate-50">
+                          <div className="relative w-full rounded-lg border overflow-hidden bg-slate-50 mb-3">
                             <img
                               src={previewURL}
                               alt="Preview"
                               className="w-auto h-auto max-h-80 object-contain mx-auto relative"
                             />
                           </div>
+                          <Button
+                            type="button"
+                            onClick={handleRemoveImageButton}
+                            className="bg-red-500 hover:bg-red-400 cursor-pointer"
+                          >
+                            Remove Image
+                          </Button>
                         </div>
                       )}
                       <div className="space-y-3">
