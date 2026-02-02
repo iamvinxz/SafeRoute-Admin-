@@ -14,9 +14,13 @@ const Home = () => {
       */}
       <div className="flex flex-col gap-15">
         <div>
-          <h1>Welcome to SafeRoute, John Doe!</h1>
+          <p className="my-2">
+            Welcome to{" "}
+            <span className="text-[#2560e6] font-medium">SafeRoute</span>, John
+            Doe!
+          </p>
           <div>
-            <h1 className="text-2xl font-semibold">Dashboard</h1>
+            <h1 className="text-[#2560e6] text-2xl font-semibold">Dashboard</h1>
             <div className="flex gap-5 my-3 w-full">
               <div className="bg-gray-300 w-100 h-50 rounded-md"></div>
               <div className="bg-gray-300 w-100 h-50 rounded-md"></div>
@@ -28,7 +32,7 @@ const Home = () => {
 
         <div>
           <div className="flex justify-between">
-            <h1 className="text-2xl font-semibold">
+            <h1 className="text-[#2560e6] text-2xl font-semibold">
               Articles and Announcements
             </h1>
             <PostButton />

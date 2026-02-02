@@ -33,7 +33,7 @@ export default function SideNav() {
   };
 
   return (
-    <div className="pr-2">
+    <div className="pr-2 bg-[#d9dfec]">
       <div
         className={cn(
           isSidebarExpanded ? "w-70" : "w-20",

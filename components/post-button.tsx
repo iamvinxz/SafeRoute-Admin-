@@ -12,7 +12,10 @@ const PostButton = () => {
 
   return (
     <>
-      <Button className="cursor-pointer" onClick={handleCreatePost}>
+      <Button
+        className="cursor-pointer bg-[#233fe3] hover:bg-[#3667db]"
+        onClick={handleCreatePost}
+      >
         Create Post
       </Button>
 

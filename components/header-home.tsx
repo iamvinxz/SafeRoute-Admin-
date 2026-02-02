@@ -17,9 +17,9 @@ const HeaderHome = () => {
           <span>Admin</span>
         </div>
         <div>
-          <span>SafeRoute</span>
+          <span className="text-[#3636363]">SafeRoute</span>
         </div>
-        <div>Hehwdase</div>
+        <div>DATE | TIME</div>
       </div>
     </nav>
   );
