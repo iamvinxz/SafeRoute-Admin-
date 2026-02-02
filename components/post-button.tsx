@@ -178,8 +178,15 @@ const PostButton = () => {
                 </Form>
               </CardContent>
               <CardFooter className="flex justify-center gap-5">
-                <Button onClick={handleCreatePost}>Post</Button>
-                <Button onClick={handleCreatePost}>Close</Button>
+                <Button
+                  onClick={handleCreatePost}
+                  className="bg-[#d7dfe6] text-black drop-shadow-2xl hover:bg-[#e4e8eb] cursor-pointer"
+                >
+                  Post
+                </Button>
+                <Button onClick={handleCreatePost} className="cursor-pointer">
+                  Close
+                </Button>
               </CardFooter>
             </Card>
           </div>
