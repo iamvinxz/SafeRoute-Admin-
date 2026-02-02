@@ -18,7 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Label } from "@/components/ui/label";
 import { useForm } from "react-hook-form";
 import { PostSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -27,9 +26,11 @@ import { Textarea } from "./ui/textarea";
 import { FileImage } from "lucide-react";
 
 const PostButton = () => {
-  const [createPostModal, setCreatePostModal] = useState(false);
+  const [createPostModal, setCreatePostModal] = useState<boolean>(false);
+  const [imageURL, setImageURL] = useState<string>("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [previewURL, setPreviewURL] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
@@ -43,12 +44,21 @@ const PostButton = () => {
     fileInputRef.current?.click();
   };
 
+  const handleChangeImageURL = (e: ChangeEvent<HTMLInputElement>) => {
+    setImageURL(e.target.value);
+  };
+
+  console.log(imageURL);
+
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+
+    console.log(file);
 
     if (file) {
       const url = URL.createObjectURL(file);
       setPreviewURL(url);
+      form.setValue("image", file.name);
     }
   };
 
@@ -56,6 +66,9 @@ const PostButton = () => {
     if (previewURL) {
       URL.revokeObjectURL(previewURL);
       setPreviewURL(null);
+    } else if (imageURL) {
+      URL.revokeObjectURL(imageURL);
+      setImageURL("");
     }
 
     form.setValue("image", "");
@@ -120,6 +133,10 @@ const PostButton = () => {
                                     placeholder="URL"
                                     type="text"
                                     autoComplete="off"
+                                    onChange={(e) => {
+                                      field.onChange(e);
+                                      handleChangeImageURL(e);
+                                    }}
                                   />
                                   <input
                                     type="file"
@@ -145,15 +162,15 @@ const PostButton = () => {
                           )}
                         />
                       </div>
-                      {previewURL && (
+                      {(previewURL || imageURL) && (
                         <div className="mt-4">
                           <p className="text-sm text-gray-500 mb-2">
                             Image preview
                           </p>
                           <div className="relative w-full rounded-lg border overflow-hidden bg-slate-50 mb-3">
                             <img
-                              src={previewURL}
-                              alt="Preview"
+                              src={previewURL || form.getValues("image")}
+                              alt="No image"
                               className="w-auto h-auto max-h-80 object-contain mx-auto relative"
                             />
                           </div>
@@ -166,13 +183,23 @@ const PostButton = () => {
                           </Button>
                         </div>
                       )}
-                      <div className="space-y-3">
-                        <Label htmlFor="content">Caption</Label>
-                        <Textarea
-                          placeholder="Input your text here."
-                          className="h-30 overflow-y-auto resize-none"
-                        />
-                      </div>
+                      <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                          <FormItem className="space-y-3">
+                            <FormLabel>Caption</FormLabel>
+                            <FormControl>
+                              <Textarea
+                                {...field}
+                                placeholder="Input your text here."
+                                className="h-30 overflow-y-auto resize-none"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
                   </form>
                 </Form>

@@ -10,8 +10,8 @@ const Home = () => {
       <div>
         <Login />
       </div>
-    </main>
-    */}
+      </main>
+      */}
       <div className="flex flex-col gap-15">
         <div>
           <h1>Welcome to SafeRoute, John Doe!</h1>
