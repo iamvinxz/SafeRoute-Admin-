@@ -1,7 +1,7 @@
 "use client";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import {
   CardTitle,
   CardContent,
@@ -24,9 +24,12 @@ import { PostSchema } from "@/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "./ui/textarea";
+import { FileImage } from "lucide-react";
 
 const PostButton = () => {
   const [createPostModal, setCreatePostModal] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [previewURL, setPreviewURL] = useState<string | null>(null);
   const form = useForm<z.infer<typeof PostSchema>>({
     resolver: zodResolver(PostSchema),
     defaultValues: {
@@ -35,6 +38,19 @@ const PostButton = () => {
       image: "",
     },
   });
+
+  const handlePostImageButton = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewURL(url);
+    }
+  };
 
   const handleCreatePost = () => {
     setCreatePostModal(!createPostModal);
@@ -48,7 +64,7 @@ const PostButton = () => {
 
       {createPostModal && (
         <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center backdrop-blur-sm">
-          <div className="relative bg-white p-6 rounded-lg shadow-lg flex flex-col w-[40%]">
+          <div className="relative bg-white p-6 rounded-lg shadow-lg flex flex-col w-[35%]">
             <Card className="w-full p-5">
               <CardHeader>
                 <CardTitle className="place-self-center text-xl">
@@ -85,20 +101,57 @@ const PostButton = () => {
                             <FormItem className="flex-1">
                               <FormLabel>Image</FormLabel>
                               <FormControl>
-                                <Input
-                                  {...field}
-                                  placeholder="URL"
-                                  type="text"
-                                  autoComplete="off"
-                                />
+                                <div className="flex gap-2">
+                                  <Input
+                                    {...field}
+                                    placeholder="URL"
+                                    type="text"
+                                    autoComplete="off"
+                                  />
+                                  <input
+                                    type="file"
+                                    ref={fileInputRef}
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={handleFileChange}
+                                  />
+                                  <button
+                                    type="button"
+                                    onClick={handlePostImageButton}
+                                    className="p-1 bg-gray-200 rounded-md cursor-pointer drop-shadow-2xl hover:bg-gray-300 transition"
+                                  >
+                                    <FileImage
+                                      width={20}
+                                      height={15}
+                                      color="#87898b"
+                                    />
+                                  </button>
+                                </div>
                               </FormControl>
                             </FormItem>
                           )}
                         />
                       </div>
+                      {previewURL && (
+                        <div className="mt-4">
+                          <p className="text-sm text-gray-500 mb-2">
+                            Image preview
+                          </p>
+                          <div className="relative w-full rounded-lg border overflow-hidden bg-slate-50">
+                            <img
+                              src={previewURL}
+                              alt="Preview"
+                              className="w-auto h-auto max-h-80 object-contain mx-auto relative"
+                            />
+                          </div>
+                        </div>
+                      )}
                       <div className="space-y-3">
-                        <Label htmlFor="content">Content</Label>
-                        <Textarea placeholder="Input your text here." />
+                        <Label htmlFor="content">Caption</Label>
+                        <Textarea
+                          placeholder="Input your text here."
+                          className="h-30 overflow-y-auto resize-none"
+                        />
                       </div>
                     </div>
                   </form>
